@@ -138,13 +138,9 @@ def main(argv):
 
             if args.verbose:
                 print(' '.join(cmd))
-            # NOTE: When running in vac mode we always
-            # want to post-process after seahorn run.
-            # Thus, don't exec!
-            # TODO: Remove exec-and-never-return logic
-            # since it complicates how sea is run, possibly
-            # unecessarily.
-            if args.expect is None and args.vac:
+            # NOTE: Only return if exepectation is given AND
+            # we are in vacuity mode else exec
+            if not (args.expect is not None and args.vac):
                 os.execv(cmd[0], cmd)
 
             import subprocess
