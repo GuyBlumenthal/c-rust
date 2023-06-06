@@ -25,6 +25,9 @@ include(CTest)
 enable_testing()
 
 include(SeaHornBuild)
+find_program(AWK awk mawk gawk)
+find_program(DEFAULT_LLVM_NM llvm-nm-14)
+find_program(CPP_FILT c++filt)
 
 set(SEAHORN_ROOT "" CACHE PATH "Path to SeaHorn installation")
 set(SEA_LINK "llvm-link-14" CACHE STRING "Path to llvm-link")
@@ -33,6 +36,7 @@ set(SEA_PP "${SEAHORN_ROOT}/bin/seapp" CACHE STRING "Path to seapp binary")
 
 set(LLVM_OBJCOPY "llvm-objcopy-14" CACHE STRING "Path to llvm-objcopy")
 set(LLVM_DIS "llvm-dis-14" CACHE STRING "Path to llvm-dis")
+set(LLVM_NM ${DEFAULT_LLVM_NM} CACHE PATH "Path to llvm-nm")
 
 set(LLVMIR_LINK ${SEA_LINK})
 set(LLVMIR_OPT ${SEA_OPT})
@@ -40,7 +44,10 @@ set(LLVMIR_OPT ${SEA_OPT})
 set(CBINDGEN_TOML ${CMAKE_SOURCE_DIR}/cbindgen.toml)
 
 configure_file(verify.py.in verify @ONLY)
-set(VERIFY_CMD python3 ${CMAKE_CURRENT_BINARY_DIR}/verify)
+set(VERIFY_CMD ${CMAKE_CURRENT_BINARY_DIR}/verify)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/extract_tests.cmake.in extract_tests.cmake @ONLY)
+set(EXTRACT_TEST_CMD ${CMAKE_CURRENT_BINARY_DIR}/extract_tests.cmake)
 
 include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/include)
 include_directories(${SEAHORN_ROOT}/include)

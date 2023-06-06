@@ -2,31 +2,35 @@ use crate::bindings::*;
 
 #[no_mangle]
 pub fn verifier_error() {
-  unsafe { __VERIFIER_error(); }
+    unsafe {
+        __VERIFIER_error();
+    }
 }
 
 #[no_mangle]
 pub fn assume(v: bool) {
-  unsafe { __VERIFIER_assume(v.into()); }
+    unsafe {
+        __VERIFIER_assume(v.into());
+    }
 }
 
 #[no_mangle]
 pub fn nd_i32() -> i32 {
-  unsafe { sea_nd_i32() }
+    unsafe { sea_nd_i32() }
 }
 
 #[no_mangle]
 pub fn nd_bool() -> bool {
-  unsafe { sea_nd_bool() }
+    unsafe { sea_nd_bool() }
 }
 
 #[macro_export]
 macro_rules! sassert {
     ($cond:expr) => {{
-        if ! $cond {
-    	    sea::verifier_error();
+        if !$cond {
+            sea::verifier_error();
         }
-    }}
+    }};
 }
 
 /// Defines `sea_nd` function that returns nd value
@@ -46,7 +50,7 @@ macro_rules! sassert {
 ///
 /// # Example
 ///
-/// define_seaa_nd!(sea_nd_foo, i32, 42);
+/// define_sea_nd!(sea_nd_foo, i32, 42);
 ///
 #[macro_export]
 macro_rules! define_sea_nd {
